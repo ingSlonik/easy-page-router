@@ -7,7 +7,7 @@ applications.
 ## Key Features:
 
 - **Small and Simple:** Minimalistic design with an intuitive API for quick and
-  easy setup.
+  easy setup __(<1kB)__.
 - **Universal:** Works across vanilla JavaScript, React, and React Native,
   making it an ideal choice for various project types.
 - **Page Transition Animations:** Enhance user experience with smooth animations

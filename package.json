@@ -2,7 +2,7 @@
   "name": "easy-router",
   "version": "0.1.0",
   "description": "easy-router is a lightweight and easy-to-use JavaScript routing package that simplifies navigation in vanilla JavaScript, React, and React Native applications.",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "tsc"
   },
