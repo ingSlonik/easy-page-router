@@ -1,6 +1,6 @@
-# easy-router - Simple and Universal JavaScript Routing
+# easy-page-router - Simple and Universal JavaScript Routing
 
-easy-router is a lightweight and easy-to-use JavaScript routing package that
+easy-page-router is a lightweight and easy-to-use JavaScript routing package that
 simplifies navigation in vanilla JavaScript, React, and React Native
 applications.
 
@@ -19,15 +19,15 @@ applications.
 ## Installation
 
 ```
-npm install easy-router
+npm install easy-page-router
 ```
 
 ## Usage
 
 ```js
-import { Router, RouterProvider } from "easy-router/react";
+import { Router, RouterProvider } from "easy-page-router/react";
 // or
-import { Router, RouterProvider } from "easy-router/react-native";
+import { Router, RouterProvider } from "easy-page-router/react-native";
 
 function App() {
     return (
@@ -56,7 +56,7 @@ possible to set animations via CSS (react) or Animated (react-native) on change.
 All pages remain rendered.
 
 ```js
-import { Router, RouterProvider } from "easy-router/react";
+import { Router, RouterProvider } from "easy-page-router/react";
 
 function PageRouter() {
     return <Router

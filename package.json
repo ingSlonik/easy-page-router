@@ -1,16 +1,34 @@
 {
-  "name": "easy-router",
+  "name": "easy-page-router",
   "version": "0.1.0",
-  "description": "easy-router is a lightweight and easy-to-use JavaScript routing package that simplifies navigation in vanilla JavaScript, React, and React Native applications.",
+  "description": "easy-page-router is a lightweight and easy-to-use JavaScript routing package that simplifies navigation in vanilla JavaScript, React, and React Native applications.",
   "main": "index.js",
   "scripts": {
     "build": "tsc"
   },
-  "author": "Filip Paulů",
-  "license": "MIT",
   "devDependencies": {
     "@types/react": "^18.3.12",
     "react": "^18.3.1",
     "typescript": "^5.6.3"
+  },
+  "keywords": [
+        "easy&lite",
+        "router",
+        "page",
+        "transition",
+        "animations",
+        "browser",
+        "react",
+        "react-native",
+        "TypeScript"
+    ],
+    "author": "Filip Paulů <ing.fenix@seznam.cz>",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ingSlonik/easy-page-router.git"
+  },
+  "bugs": {
+      "url": "https://github.com/ingSlonik/easy-page-router/issues"
   }
 }

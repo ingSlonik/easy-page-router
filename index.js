@@ -1,9 +1,9 @@
 console.log(`
-WARNING: Badly imported easy-router library.
+WARNING: Badly imported easy-page-router library.
 
 USE:
-import { Router, RouterProvider } from "easy-router/react";
+import { Router, RouterProvider } from "easy-page-router/react";
 // or
-import { Router, RouterProvider } from "easy-router/react-native";
+import { Router, RouterProvider } from "easy-page-router/react-native";
 
 `);
