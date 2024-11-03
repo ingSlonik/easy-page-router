@@ -7,6 +7,9 @@
         "declaration": true,
         "outDir": "",
     },
+    "include": [
+        "src"
+    ],
     "exclude": [
         "node_modules"
     ]
