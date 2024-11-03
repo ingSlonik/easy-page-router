@@ -4,6 +4,7 @@
         "strictNullChecks": true,
         "jsx": "react-jsx",
         "esModuleInterop": true,
+        "declaration": true,
         "outDir": "",
     },
     "exclude": [
