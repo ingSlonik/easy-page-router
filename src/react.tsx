@@ -167,7 +167,7 @@ export function Router({ renderPage, renderAnimation }: RouterProps) {
                             />
                         </PageContext.Provider>
                     );
-                })}
+                }).reverse()}
             </>
         );
     } else {
@@ -209,22 +209,23 @@ export function Link({ to, className, children }: LinkProps) {
     );
 }
 
-export type RouterHook = PageProps & Actions & {
-    useTitle: (title: string) => void;
-};
+export type RouterHook = PageProps & Actions;
 
 export function useRouter(): RouterHook {
     const { push, back, forward } = useContext(RouterContext);
     const pageProps = useContext(PageContext);
 
-    const { state } = pageProps;
-    const useTitle = useMemo(() => (title: string) => {
+    return { ...pageProps, push, back, forward };
+}
+
+export function useTitle(title: string) {
+    const { state } = useContext(PageContext);
+
+    useEffect(() => {
         if (state === "active") {
             document.title = title;
         }
-    }, [state]);
-
-    return { ...pageProps, push, back, forward, useTitle };
+    }, [state, title]);
 }
 
 function getPageProps(
