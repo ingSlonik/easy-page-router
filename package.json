@@ -1,0 +1,16 @@
+{
+  "name": "easy-router",
+  "version": "0.1.0",
+  "description": "easy-router is a lightweight and easy-to-use JavaScript routing package that simplifies navigation in vanilla JavaScript, React, and React Native applications.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Filip Paulů",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3"
+  }
+}

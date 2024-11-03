@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "lib": [ "dom", "ES2015" ],
+        "strictNullChecks": true,
+        "jsx": "react-jsx",
+        "esModuleInterop": true,
+        "outDir": "",
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
