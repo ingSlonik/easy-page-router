@@ -1,8 +1,9 @@
 {
   "name": "easy-page-router",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "easy-page-router is a lightweight and easy-to-use JavaScript routing package that simplifies navigation in vanilla JavaScript, React, and React Native applications.",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc"
   },
