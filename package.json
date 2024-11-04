@@ -8,28 +8,29 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "@types/node": "^22.8.7",
     "@types/react": "^18.3.12",
     "react": "^18.3.1",
     "typescript": "^5.6.3"
   },
   "keywords": [
-        "easy&lite",
-        "router",
-        "page",
-        "transition",
-        "animations",
-        "browser",
-        "react",
-        "react-native",
-        "TypeScript"
-    ],
-    "author": "Filip Paulů <ing.fenix@seznam.cz>",
-    "license": "MIT",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/ingSlonik/easy-page-router.git"
+    "easy&lite",
+    "router",
+    "page",
+    "transition",
+    "animations",
+    "browser",
+    "react",
+    "react-native",
+    "TypeScript"
+  ],
+  "author": "Filip Paulů <ing.fenix@seznam.cz>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingSlonik/easy-page-router.git"
   },
   "bugs": {
-      "url": "https://github.com/ingSlonik/easy-page-router/issues"
+    "url": "https://github.com/ingSlonik/easy-page-router/issues"
   }
 }

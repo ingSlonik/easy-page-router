@@ -31,9 +31,12 @@ type RouterHistory = {
     }[];
 };
 
+if (!global.window) console.error("Error: No default location for SSR!");
+const defaultHref = global.window?.location?.href || "http://localhost/";
+
 const defaultPage = {
     pageKey: new Date().toISOString(),
-    href: window.location.href,
+    href: defaultHref,
 };
 
 const defaultHistory: RouterHistory = {
