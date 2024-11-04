@@ -30,22 +30,22 @@ import { Router, RouterProvider } from "easy-page-router/react";
 import { Router, RouterProvider } from "easy-page-router/react-native";
 
 function App() {
-    return (
-        <RouterProvider>
-            <Layout>
-                <Router
-                    renderPage={({ path }) => {
-                        if (path.length === 0) {
-                            return <HomePage />;
-                        } else if (path[0] === "song" && path[1]) {
-                            return <SongPage songId={path[1]} />;
-                        }
-                        return <NotFoundPage />;
-                    }}
-                />
-            </Layout>
-        </RouterProvider>
-    );
+    return <RouterProvider>
+        <Layout>
+            <Router
+                renderPage={({ path }) => {
+                    if (path.length === 0) {
+                        // "/"
+                        return <HomePage />;
+                    } else if (path[0] === "song" && path[1]) {
+                        // "/song/:id"
+                        return <SongPage songId={path[1]} />;
+                    }
+                    return <NotFoundPage />;
+                }}
+            />
+        </Layout>
+    </RouterProvider>;
 }
 ```
 
@@ -79,7 +79,6 @@ function Animation({ page, state }: RenderAnimationProps) {
         if (state !== "active") setNewClass("");
     }, [state]);
 
-    // 
     return <div className={`page-animation ${state} ${newClass}`}>{page}</div>;
 }
 ```
