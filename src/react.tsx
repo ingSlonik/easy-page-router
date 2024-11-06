@@ -31,34 +31,38 @@ type RouterHistory = {
     }[];
 };
 
-if (!global.window) console.error("Error: No default location for SSR!");
-const defaultHref = global.window?.location?.href || "http://localhost/";
+const createHref = "http://localhost/";
+const createPageKey = "default";
 
-const defaultPage = {
-    pageKey: new Date().toISOString(),
-    href: defaultHref,
-};
-
-const defaultHistory: RouterHistory = {
+const createRouterContext: RouterHistory & Actions = {
     index: 0,
-    pages: [defaultPage],
-};
-
-const defaultRouterContext: RouterHistory & Actions = {
-    ...defaultHistory,
+    pages: [{ pageKey: createPageKey, href: createHref }],
     push: () => {},
     back: () => {},
     forward: () => {},
 };
 
+// SSR support. Designed to be loaded with render.
+function getHref() {
+    if (!global.window) console.error("Error: No default location for SSR!");
+    return global.window?.location?.href || createHref;
+}
+
+function getDefaultHistory(): RouterHistory {
+    return {
+        index: 0,
+        pages: [{ pageKey: createPageKey, href: getHref() }],
+    };
+}
+
 const PageContext = createContext(
-    getPageProps(defaultPage.pageKey, defaultPage.href, 0, 0),
+    getPageProps(createPageKey, createHref, 0, 0),
 );
 
-const RouterContext = createContext(defaultRouterContext);
+const RouterContext = createContext(createRouterContext);
 
 export function RouterProvider({ children }: { children: ReactNode }) {
-    const [history, setHistory] = useState(defaultHistory);
+    const [history, setHistory] = useState(getDefaultHistory());
 
     const { handleChange, push, back, forward } = useMemo(() => {
         const handleChange = () => {
