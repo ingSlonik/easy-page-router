@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
 
 export type Actions = {
     push: (to: string) => void;
@@ -36,9 +36,9 @@ const defaultHistory: RouterHistory = {
 
 const defaultRouterContext: RouterHistory & Actions = {
     ...defaultHistory,
-    push: () => {},
-    back: () => {},
-    forward: () => {},
+    push: () => { },
+    back: () => { },
+    forward: () => { },
 };
 
 const PageContext = createContext(
@@ -47,8 +47,18 @@ const PageContext = createContext(
 
 const RouterContext = createContext(defaultRouterContext);
 
-export function RouterProvider({ children }: { children: ReactNode }) {
+type RouterProvider = {
+    onPageChange?: (href: string) => void;
+    children: ReactNode;
+}
+
+export function RouterProvider({ children, onPageChange }: RouterProvider) {
     const [history, setHistory] = useState(defaultHistory);
+
+    const pageActual = history.pages[history.index];
+    useEffect(() => {
+        if (onPageChange && pageActual?.href) onPageChange(pageActual.href);
+    }, [pageActual?.href]);
 
     const { push, back, forward } = useMemo(() => {
         const push = (newHref: string) => {
@@ -207,7 +217,7 @@ function getPageProps(
         state: index === actualIndex
             ? "active"
             : index > actualIndex
-            ? "back"
-            : "forward",
+                ? "back"
+                : "forward",
     };
 }

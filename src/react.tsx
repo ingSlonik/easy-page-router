@@ -37,9 +37,9 @@ const createPageKey = "default";
 const createRouterContext: RouterHistory & Actions = {
     index: 0,
     pages: [{ pageKey: createPageKey, href: createHref }],
-    push: () => {},
-    back: () => {},
-    forward: () => {},
+    push: () => { },
+    back: () => { },
+    forward: () => { },
 };
 
 // SSR support. Designed to be loaded with render.
@@ -61,8 +61,18 @@ const PageContext = createContext(
 
 const RouterContext = createContext(createRouterContext);
 
-export function RouterProvider({ children }: { children: ReactNode }) {
+type RouterProvider = {
+    onPageChange?: (href: string) => void;
+    children: ReactNode;
+}
+
+export function RouterProvider({ children, onPageChange }: RouterProvider) {
     const [history, setHistory] = useState(getDefaultHistory());
+
+    const pageActual = history.pages[history.index];
+    useEffect(() => {
+        if (onPageChange && pageActual?.href) onPageChange(pageActual.href);
+    }, [pageActual?.href]);
 
     const { handleChange, push, back, forward } = useMemo(() => {
         const handleChange = () => {
@@ -256,7 +266,7 @@ function getPageProps(
         state: index === actualIndex
             ? "active"
             : index > actualIndex
-            ? "back"
-            : "forward",
+                ? "back"
+                : "forward",
     };
 }
