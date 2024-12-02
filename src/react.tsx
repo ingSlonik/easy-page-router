@@ -226,15 +226,21 @@ export type LinkProps = {
     className?: string;
     children: ReactNode;
 };
-export function Link({ to, className, children }: LinkProps) {
-    const { push } = useContext(RouterContext);
-    const page = useContext(PageContext);
+export function Link({ to, className = "", children }: LinkProps) {
+    const { index, pages, push } = useContext(RouterContext);
 
-    const isActive = page.to === to;
+    // do not use PageContext, Link can by outside of page
+    const isActive = useMemo(() => {
+        const pageActual = pages[index];
+        if (!pageActual.href) return false;
+
+        const url = new URL(pageActual.href);
+        return url.pathname + url.search === to;
+    }, [index, pages]);
 
     return <a
         href={to}
-        className={(className ?? "") + (isActive ? " active" : "")}
+        className={className + (isActive ? " active" : "")}
         onClick={(e) => {
             e.preventDefault();
             push(to);
