@@ -18,6 +18,7 @@ export type PageState = "active" | "back" | "forward";
 export type PageProps = {
     pageKey: string;
     href: string;
+    to: string;
     path: string[];
     searchParams: Record<string, string>;
     state: PageState;
@@ -62,11 +63,18 @@ const PageContext = createContext(
 const RouterContext = createContext(createRouterContext);
 
 type RouterProvider = {
+    /* default is 500 ms */
+    scrollSpeed?: number,
+    scrollAlways?: boolean,
+    noScroll?: boolean,
     onPageChange?: (href: string) => void;
     children: ReactNode;
 }
 
-export function RouterProvider({ children, onPageChange }: RouterProvider) {
+export function RouterProvider({
+    children, onPageChange,
+    scrollSpeed = 500, scrollAlways = false, noScroll = false,
+}: RouterProvider) {
     const [history, setHistory] = useState(getDefaultHistory());
 
     const pageActual = history.pages[history.index];
@@ -84,6 +92,9 @@ export function RouterProvider({ children, onPageChange }: RouterProvider) {
                 const pageForward = history.pages[history.index + 1];
 
                 if (newHref === pageActual?.href) return history;
+
+                !noScroll && scrollAlways && scrollToTop(scrollSpeed);
+
                 if (newHref === pageBack?.href) {
                     return { ...history, index: history.index + 1 };
                 }
@@ -98,6 +109,8 @@ export function RouterProvider({ children, onPageChange }: RouterProvider) {
                     pageKey: new Date().toISOString(),
                     href: newHref,
                 };
+
+                !noScroll && !scrollAlways && scrollToTop(scrollSpeed);
 
                 return {
                     index: 0,
@@ -117,6 +130,8 @@ export function RouterProvider({ children, onPageChange }: RouterProvider) {
                     index = history.pages.length - 1;
                 }
 
+                !noScroll && scrollAlways && scrollToTop(scrollSpeed);
+
                 return { ...history, index };
             });
         };
@@ -125,12 +140,14 @@ export function RouterProvider({ children, onPageChange }: RouterProvider) {
                 let index = history.index - 1;
                 if (index < 0) index = 0;
 
+                !noScroll && scrollAlways && scrollToTop(scrollSpeed);
+
                 return { ...history, index };
             });
         };
 
         return { handleChange, push, back, forward };
-    }, []);
+    }, [scrollSpeed, scrollAlways, noScroll]);
 
     useEffect(() => {
         window.addEventListener("popstate", handleChange);
@@ -211,19 +228,20 @@ export type LinkProps = {
 };
 export function Link({ to, className, children }: LinkProps) {
     const { push } = useContext(RouterContext);
+    const page = useContext(PageContext);
 
-    return (
-        <a
-            href={to}
-            className={className}
-            onClick={(e) => {
-                e.preventDefault();
-                push(to);
-            }}
-        >
-            {children}
-        </a>
-    );
+    const isActive = page.to === to;
+
+    return <a
+        href={to}
+        className={(className ?? "") + (isActive ? " active" : "")}
+        onClick={(e) => {
+            e.preventDefault();
+            push(to);
+        }}
+    >
+        {children}
+    </a>;
 }
 
 export type RouterHook = PageProps & Actions;
@@ -259,9 +277,8 @@ function getPageProps(
     return {
         pageKey,
         href,
-        path: url.pathname.split("/").map((p) => decodeURIComponent(p)).filter(
-            Boolean,
-        ),
+        to: url.pathname + url.search,
+        path: url.pathname.split("/").map((p) => decodeURIComponent(p)).filter(Boolean),
         searchParams,
         state: index === actualIndex
             ? "active"
@@ -269,4 +286,12 @@ function getPageProps(
                 ? "back"
                 : "forward",
     };
+}
+
+function scrollToTop(time: number, startScroll = window.scrollY, startTime = new Date().getTime()) {
+    if (window.scrollY > 0) {
+        const ratio = (new Date().getTime() - startTime) / time;
+        window.scrollTo(0, startScroll * (1 - ratio));
+        window.requestAnimationFrame(() => scrollToTop(time, startScroll, startTime));
+    }
 }

@@ -11,6 +11,7 @@ export type PageState = "active" | "back" | "forward";
 export type PageProps = {
     pageKey: string;
     href: string;
+    to: string;
     path: string[];
     searchParams: Record<string, string>;
     state: PageState;
@@ -210,9 +211,8 @@ function getPageProps(
     return {
         pageKey,
         href,
-        path: url.pathname.split("/").map((p) => decodeURIComponent(p)).filter(
-            Boolean,
-        ),
+        to: url.pathname + url.search,
+        path: url.pathname.split("/").map((p) => decodeURIComponent(p)).filter(Boolean),
         searchParams,
         state: index === actualIndex
             ? "active"
