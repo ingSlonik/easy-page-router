@@ -159,11 +159,14 @@ export function RouterProvider({
         };
     }, [handleChange]);
 
-    return (
-        <RouterContext.Provider value={{ ...history, push, back, forward }}>
+    // for useRouter outside Router
+    const actualPageProps = getPageProps(pageActual.pageKey, pageActual.href, history.index, history.index);
+
+    return <RouterContext.Provider value={{ ...history, push, back, forward }}>
+        <PageContext.Provider value={actualPageProps}>
             {children}
-        </RouterContext.Provider>
-    );
+        </PageContext.Provider>
+    </RouterContext.Provider>;
 }
 
 export type RenderAnimationProps = PageProps & { page: ReactNode };
@@ -180,30 +183,28 @@ export function Router({ renderPage, renderAnimation }: RouterProps) {
     const Animation = renderAnimation;
 
     if (Animation) {
-        return (
-            <>
-                {pages.map((page, i) => {
-                    const pageProps = getPageProps(
-                        page.pageKey,
-                        page.href,
-                        i,
-                        index,
-                    );
+        return <>
+            {pages.map((page, i) => {
+                const pageProps = getPageProps(
+                    page.pageKey,
+                    page.href,
+                    i,
+                    index,
+                );
 
-                    return (
-                        <PageContext.Provider
-                            key={page.pageKey}
-                            value={pageProps}
-                        >
-                            <Animation
-                                {...pageProps}
-                                page={<Page {...pageProps} />}
-                            />
-                        </PageContext.Provider>
-                    );
-                }).reverse()}
-            </>
-        );
+                return (
+                    <PageContext.Provider
+                        key={page.pageKey}
+                        value={pageProps}
+                    >
+                        <Animation
+                            {...pageProps}
+                            page={<Page {...pageProps} />}
+                        />
+                    </PageContext.Provider>
+                );
+            }).reverse()}
+        </>;
     } else {
         const activePage = pages[index];
         const pageProps = getPageProps(
@@ -213,11 +214,9 @@ export function Router({ renderPage, renderAnimation }: RouterProps) {
             index,
         );
 
-        return (
-            <PageContext.Provider value={pageProps}>
-                <Page {...pageProps} />
-            </PageContext.Provider>
-        );
+        return <PageContext.Provider value={pageProps}>
+            <Page {...pageProps} />
+        </PageContext.Provider>;
     }
 }
 
