@@ -107,10 +107,12 @@ export function RouterProvider({
         };
 
         const push = (to: string) => {
-            if (!isReactNative)
+            if (isReactNative) {
+                handleChange(to);
+            } else {
                 window.history.pushState({ to }, "", to);
-
-            handleChange(to);
+                handleChange(window.location.href);
+            }
         };
         const back = () => {
             setHistory((history) => {
